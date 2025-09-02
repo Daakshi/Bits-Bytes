@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin Registration</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --primary-color: #3b82f6;
+    --background-light: linear-gradient(135deg, #f0f9ff 0%, #ffffff 50%, #faf5ff 100%);
+    --background-dark: linear-gradient(135deg, #101624 0%, #191e2e 50%, #23213a 100%);
+    --card-bg-light: rgba(255,255,255,0.9);
+    --card-bg-dark: rgba(32,36,50,0.96);
+    --text-primary-light: #1e293b;
+    --text-secondary-light: #64748b;
+    --text-primary-dark: #f3f4f6;
+    --text-secondary-dark: #9ca3af;
+    --border-color-light: #e2e8f0;
+    --border-color-dark: #374151;
+  }
+  /* Body and html full height and Flex center */
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.5s ease, color 0.3s ease;
+    background: var(--background-light);
+    color: var(--text-primary-light);
+  }
+  body.dark {
+    background: var(--background-dark);
+    color: var(--text-primary-dark);
+  }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  /* Container max width and spacing */
+  main {
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+  }
+  /* Floating blurred shapes */
+  .decorative-shapes {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .shape {
+    position: absolute; border-radius: 50%; filter: blur(40px);
+    opacity: 0.3; animation: float 8s ease-in-out infinite;
+  }
+  .shape-1 {width:250px; height:250px; top:10%; left:-8%; background:linear-gradient(135deg,#6d9886 60%,#3b82f6 100%); animation-delay:0s;}
+  .shape-2 {width:170px; height:170px; bottom:14%; right:-6%; background:linear-gradient(135deg,#8b5cf6,#6d9886); animation-delay:2s;}
+  .shape-3 {width:100px; height:100px; top:62%; left:21%; background:linear-gradient(135deg,#fff176,#fde68a); animation-delay:4s;}
+  @keyframes float {
+    0%, 100% {transform: translateY(0) rotate(0);}
+    50% {transform: translateY(-40px) rotate(180deg);}
+  }
+  /* Glassmorphism card */
+  .glass-card {
+    background: var(--card-bg-light);
+    border-radius: 1.25rem;
+    border: 2px solid rgba(109,152,134,0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(59,130,246,0.17);
+    padding: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: background 0.3s ease;
+  }
+  body.dark .glass-card {
+    background: var(--card-bg-dark);
+    border-color: var(--border-color-dark);
+    box-shadow: 0 8px 32px rgba(32,36,50,0.33);
+  }
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary-light);
+    transition: color 0.3s;
+  }
+  body.dark header h2 {
+    color: var(--text-primary-dark);
+  }
+  header p {
+    color: var(--text-secondary-light);
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    transition: color 0.3s;
+  }
+  body.dark header p {
+    color: var(--text-secondary-dark);
+  }
+  /* Labels */
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-secondary-light);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
+  }
+  body.dark label {
+    color: var(--text-secondary-dark);
+  }
+  /* Inputs */
+  input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.6rem;
+    border: 1.5px solid var(--border-color-light);
+    font-size: 1rem;
+    color: var(--text-primary-light);
+    background: transparent;
+    transition: border-color 0.3s, color 0.3s;
+    font-weight: 400;
+    box-sizing: border-box;
+  }
+  body.dark input {
+    border-color: var(--border-color-dark);
+    color: var(--text-primary-dark);
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+  }
+  body.dark input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+  }
+  /* Separator */
+  hr {
+    margin: 2rem 0;
+    border-color: var(--border-color-light);
+    border-style: solid;
+    border-width: 1px 0 0 0;
+  }
+  body.dark hr {
+    border-color: var(--border-color-dark);
+  }
+  /* Submit Button */
+  button[type="submit"] {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 0.85rem 1.5rem;
+    border: none;
+    border-radius: 0.7rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+  }
+  button[type="submit"]:hover {
+    background-color: #2563eb;
+  }
+  /* Footer */
+  footer p {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--text-secondary-light);
+    font-size: 0.875rem;
+    transition: color 0.3s;
+  }
+  body.dark footer p {
+    color: var(--text-secondary-dark);
+  }
+  footer a {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: text-decoration 0.3s;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }
+  /* Dark mode toggle button */
+  .theme-toggle-btn {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(255,255,255,0.9);
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    font-size: 1.7rem;
+    color: var(--text-primary-light);
+    cursor: pointer;
+    box-shadow: 0 1px 8px rgba(102,146,127,0.11);
+    transition: color 0.3s, background-color 0.3s;
+    z-index: 1000;
+  }
+  body.dark .theme-toggle-btn {
+    background-color: rgba(32,36,50,0.9);
+    color: var(--text-primary-dark);
+  }
+</style>
+</head>
+<body>
+  <div class="decorative-shapes" aria-hidden="true">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+
+  <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Toggle dark mode">🌙</button>
+  
+  <main>
+    <header>
+      <h2>Create Your Admin Account</h2>
+      <p>Join our platform to support student well-being.</p>
+    </header>
+
+    <form class="glass-card" action="#" method="POST" novalidate>
+      <div>
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" placeholder="e.g., JaneDoe" required />
+      </div>
+      <div>
+        <label for="email">Email Address</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required />
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="••••••••" required />
+      </div>
+      <hr />
+      <div>
+        <label for="institute">Institute Name</label>
+        <input id="institute" name="institute" type="text" placeholder="University of Well-being" required />
+      </div>
+      <div>
+        <label for="contact">Contact Number</label>
+        <input id="contact" name="contact" type="tel" placeholder="+1 (555) 123-4567" required />
+      </div>
+      <button type="submit">Register</button>
+    </form>
+
+    <footer>
+      <p>
+        Already have an account?
+        <a href="#">Sign in</a>
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    const body = document.body;
+
+    if (
+      localStorage.getItem('theme') === 'dark' ||
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      body.classList.add('dark');
+      toggleBtn.textContent = '☀️';
+    } else {
+      body.classList.remove('dark');
+      toggleBtn.textContent = '🌙';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      if (body.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+        toggleBtn.textContent = '☀️';
+      } else {
+        localStorage.setItem('theme', 'light');
+        toggleBtn.textContent = '🌙';
+      }
+    });
+  </script>
+</body>
+</html>
